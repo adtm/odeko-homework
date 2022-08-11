@@ -4,6 +4,7 @@
   "description": "Friendface server for returning data about posts",
   "main": "src/index.ts",
   "scripts": {
+    "clean": "rm -rf ./dist",
     "build": "tsc",
     "dev": "ts-node src/index.ts",
     "start": "node ./dist/index.js"
