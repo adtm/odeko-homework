@@ -2,7 +2,7 @@ import { QueryError } from 'mysql2';
 
 import mysql from '../db/mysql'
 import errors from '../errors/errors';
-import { MySQLCountsByDayResponse } from '../types/mysql';
+import { MySQLCountsByDayResponse , MySQLMaximumCountsByWeekdayResponse} from '../types/mysql';
 
 const insertLikes = async (user: string, postIds: string[]) => {
   const likeValueStat = postIds.map(postId => (
@@ -18,7 +18,7 @@ const insertLikes = async (user: string, postIds: string[]) => {
 
 const getMostLikedWeekdaysWithCount = async () => {
   try {
-    const [response] = await mysql.query<Array<MySQLCountsByDayResponse>>(`
+    const [response] = await mysql.query<Array<MySQLMaximumCountsByWeekdayResponse>>(`
       SELECT COUNT(*) as count, WEEKDAY(date) AS weekday
       FROM likes
       GROUP BY weekday
@@ -26,6 +26,20 @@ const getMostLikedWeekdaysWithCount = async () => {
         SELECT MAX(count) FROM (SELECT COUNT(*) AS count, WEEKDAY(date) AS weekday FROM likes GROUP BY weekday) as count_table
       )
       ORDER BY weekday ASC;
+    `)
+    return response;
+  } catch (err) {
+    throw exceptionByErrorCode(err as QueryError);
+  }
+}
+
+const getDaysWithCount = async () => {
+  try {
+    const [response] = await mysql.query<Array<MySQLCountsByDayResponse>>(`
+      SELECT COUNT(*) as count, DATE_FORMAT(date, '%Y-%m-%d') as day
+      FROM likes
+      GROUP BY day
+      ORDER BY day ASC;
     `)
     return response;
   } catch (err) {
@@ -43,5 +57,6 @@ const exceptionByErrorCode = (err: QueryError) => {
 
 export default {
   insertLikes,
+  getDaysWithCount,
   getMostLikedWeekdaysWithCount
 }
