@@ -20,11 +20,12 @@ const getStreaks = async (_: Request, res: Response) => {
 const getMostLikedWeekdaysWithCount = async (_: Request, res: Response) => {
   try {
     const response = await likesModel.getMostLikedWeekdaysWithCount();
-    const countsByWeekday = response.map(({ count, weekday }) => ({
-      count, day: weekdayToString(weekday)
-    }))
+    const countsWithWeekdays = {
+      count: response[0].count,
+      weekdays: response.map(({ weekday }) => weekdayToString(weekday))
+    }
 
-    return res.send(countsByWeekday).status(200)
+    return res.send(countsWithWeekdays).status(200)
   } catch (err) {
     return errors.sendResponseError(err, res);
   }
