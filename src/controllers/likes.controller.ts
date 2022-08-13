@@ -11,7 +11,7 @@ const getStreaks = async (_: Request, res: Response) => {
     const countsByDate = response.map(({ count, day }) => ({ count, day: new Date(day) }))
 
     const streaks = calculateIncreasingStreaks(countsByDate)
-    return res.send(streaks).status(200)
+    return res.send({ streaks }).status(200)
   } catch (err) {
     return errors.sendResponseError(err, res);
   }

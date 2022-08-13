@@ -9,7 +9,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json())
 
 const router = express.Router();
-app.use("/api", router)
+app.use("/api/v1", router)
 router.use("/posts", postsRouter)
 router.use("/likes", likesRouter)
 
