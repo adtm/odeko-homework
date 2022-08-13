@@ -3,8 +3,17 @@ version: '3.9'
 services:
   app:
     build: .
+    restart: always
+    depends_on:
+      mysqldb:
+        condition: service_healthy
     environment:
       - APP_PORT
+      - DB_HOST=mysqldb
+      - DB_USER=$MYSQL_USER
+      - DB_PASSWORD=$MYSQL_PASSWORD
+      - DB_NAME=$MYSQL_DATABASE
+      - DB_PORT=$MYSQL_PORT
     ports:
       - $APP_PORT:$APP_PORT
 

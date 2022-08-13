@@ -1,6 +1,11 @@
 CREATE TABLE likes (
   postId INT NOT NULL, 
   user VARCHAR(100) NOT NULL, 
-  date DATETIME NOT NULL,
+  date DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (postId, user)
 );
+
+CREATE USER 'app_user'@'%' IDENTIFIED BY 'password';
+GRANT CREATE, UPDATE, DELETE, SELECT, INSERT ON `friendface`.* TO 'app_user'@'%';
+
+FLUSH PRIVILEGES;
