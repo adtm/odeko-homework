@@ -7,3 +7,22 @@ services:
       - APP_PORT
     ports:
       - $APP_PORT:$APP_PORT
+
+  mysqldb:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_DATABASE
+      - MYSQL_ROOT_PASSWORD
+    ports:
+      - $MYSQL_PORT:$MYSQL_PORT
+    command: --default-authentication-plugin=mysql_native_password --secure-file-priv=""
+    volumes:
+      - "./data/likes.csv:/tmp/likes.csv"
+      - "./scripts/create_tables.sql:/docker-entrypoint-initdb.d/create_table.sql"
+      - "./scripts/insert_likes.sql:/docker-entrypoint-initdb.d/insert_likes.sql"
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      interval: 2s
+      timeout: 5s
+      retries: 10
