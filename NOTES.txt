@@ -1,0 +1,11 @@
+
+Technical decisions
+- My goal was to do most operations on the storage layer than on the backend servers. Therefore, all MySQL tables and users, with the .csv file is seeded/created during the initialization of MySQL.
+- The "streaks" calculation was one of the most fun things. I did it imperatively - I believe it could be rewrite from a "for" loop to a ".reduce" with some love.
+- ".env" file is only for showcase purposes; it wouldn't be committed.
+
+Future improvements
+- The "A way to get the day(s) of the week when you got the most" I would do a bit differently, passing the "?filter=weekday" parameter and not "/weekday" API endpoint.
+
+-- Side Notes
+I took around ~6 hours, wanted to make a PR I'm happy about.
