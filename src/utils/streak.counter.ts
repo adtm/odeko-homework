@@ -20,6 +20,7 @@ const calculateIncreasingStreaks = (countsByDate: Array<{ count: number, day: Da
       }
       currentStreak = [currDate.day]
     }
+    // to put the last item inside the results if it's increasing
     else if (currIdx == length - 1) {
       if (isStreakMinimumLength(currDate.day, firstStreakDate)) {
         streaks.push([...currentStreak, currDate.day])
