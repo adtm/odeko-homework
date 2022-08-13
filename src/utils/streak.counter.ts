@@ -11,16 +11,17 @@ const calculateIncreasingStreaks = (countsByDate: Array<{ count: number, day: Da
     
     const prevDate = countsByDate[currIdx - 1]
     const currDate = countsByDate[currIdx]
+    const firstStreakDate = currentStreak[0]
 
     const isIncreasing = currDate.count - prevDate.count > 0
     if (!isIncreasing) {
-      if (isStreakMinimumLength(prevDate.day, currentStreak[0])) {
+      if (isStreakMinimumLength(prevDate.day, firstStreakDate)) {
         streaks.push([...currentStreak, prevDate.day])
       }
       currentStreak = [currDate.day]
     }
     else if (currIdx == length - 1) {
-      if (isStreakMinimumLength(currDate.day, currentStreak[0])) {
+      if (isStreakMinimumLength(currDate.day, firstStreakDate)) {
         streaks.push([...currentStreak, currDate.day])
       }
     }
